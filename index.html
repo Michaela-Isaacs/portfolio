@@ -1,0 +1,565 @@
+<title>Michaela Isaacs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#1c1c1e;
+    --ink-soft:#5c5c60;
+    --ink-faint:#8a8a8e;
+    --line:#e2e0da;
+    --card-bg:#faf9f6;
+    --teal:#0F6B5C;
+    --crimson:#B3261E;
+    --plum:#5B3A8E;
+    --gold:#A8790A;
+    --burnt:#C1550C;
+  }
+
+  *{box-sizing:border-box;}
+  html{background:var(--bg);}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:var(--teal);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+
+  /* ---------- arcade strip ---------- */
+  .arcade{
+    position:relative;
+    height:34px;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    background:var(--bg);
+  }
+  .track{
+    position:absolute;inset:0;
+    background-image:radial-gradient(circle, var(--ink-faint) 1.6px, transparent 1.6px);
+    background-size:22px 100%;
+    background-position:10px center;
+    background-repeat:repeat-x;
+  }
+  .wipe{
+    position:absolute;top:0;left:0;height:100%;width:0;
+    background:var(--bg);
+    animation:wipeAcross 10s linear infinite;
+  }
+  .ghost{
+    position:absolute;top:50%;width:17px;height:16px;margin-top:-8px;
+    border-radius:9px 9px 0 0;
+    clip-path:polygon(0 0,100% 0,100% 100%,83% 78%,66% 100%,50% 78%,33% 100%,16% 78%,0 100%);
+    animation:pacMove 10s linear infinite;
+  }
+  .ghost::before, .ghost::after{
+    content:"";position:absolute;top:4px;width:4px;height:4px;background:#fff;border-radius:50%;
+  }
+  .ghost::before{left:3px;}
+  .ghost::after{left:10px;}
+  .ghost.g1{background:var(--plum);animation-delay:-0.6s;left:-20px;}
+  .ghost.g2{background:var(--crimson);animation-delay:-1.15s;left:-20px;}
+  .pac{
+    position:absolute;top:50%;left:0;width:20px;height:20px;margin-top:-10px;
+    background:var(--gold);border-radius:50%;
+    animation:pacMove 10s linear infinite;
+  }
+  .pac::after{
+    content:"";position:absolute;top:50%;left:50%;width:0;height:0;
+    border-style:solid;border-width:10px 11px 10px 0;
+    border-color:transparent var(--bg) transparent transparent;
+    transform-origin:0% 50%;
+    transform:translateY(-50%) rotate(0deg);
+    animation:chomp .3s ease-in-out infinite alternate;
+  }
+  @keyframes wipeAcross{0%{width:0;}100%{width:calc(100% - 20px);}}
+  @keyframes pacMove{0%{left:0;}100%{left:calc(100% - 20px);}}
+  @keyframes chomp{0%{transform:translateY(-50%) rotate(-30deg);}100%{transform:translateY(-50%) rotate(30deg);}}
+
+  @media (prefers-reduced-motion: reduce){
+    .wipe, .pac, .ghost, .pac::after{animation:none;}
+    .wipe{width:40%;}
+    .pac{left:40%;}
+    .ghost.g1{left:calc(40% - 22px);}
+    .ghost.g2{left:calc(40% - 42px);}
+  }
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:900px;margin:0 auto;padding:0 24px;}
+
+  .hero{
+    padding:60px 24px 46px;
+    text-align:center;
+  }
+
+  .biz-card{
+    position:relative;
+    max-width:600px;
+    margin:0 auto;
+    background:#fff;
+    border:1.5px solid var(--ink);
+    border-radius:16px;
+    padding:38px 40px 32px;
+    box-shadow:0 20px 44px -16px rgba(28,28,30,.22), 0 3px 10px rgba(28,28,30,.06);
+    transform:rotate(-1deg);
+    animation:popIn .55s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes popIn{
+    0%{opacity:0; transform:rotate(-1deg) scale(.86) translateY(16px);}
+    100%{opacity:1; transform:rotate(-1deg) scale(1) translateY(0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .biz-card{animation:none;}
+  }
+
+  .nametag{
+    display:inline-block;
+    background:#fff;
+    border:1.5px dashed var(--crimson);
+    color:var(--crimson);
+    font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 13px;border-radius:4px;
+    transform:rotate(-3deg);
+    margin-bottom:20px;
+  }
+
+  .logo{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:600;
+    font-size:clamp(34px, 6.4vw, 52px);
+    letter-spacing:-0.01em;
+    margin:0;
+    text-wrap:balance;
+    line-height:1.05;
+  }
+
+  .tagline{
+    margin:14px auto 0;
+    color:var(--ink-soft);
+    font-size:14.5px;
+    font-weight:500;
+  }
+
+  .blurb{
+    margin:16px auto 0;
+    max-width:62ch;
+    color:var(--ink-soft);
+    font-size:14.5px;
+    line-height:1.6;
+    text-align:center;
+  }
+
+  .buttons{
+    display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+    margin:26px 0 20px;
+  }
+  .btn{
+    font-family:inherit;font-size:14px;font-weight:500;color:var(--ink);
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:11px 22px;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .btn:hover{
+    border-color:var(--ink-faint);
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+    text-decoration:none;
+  }
+  .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn.primary:hover{box-shadow:0 4px 12px rgba(28,28,30,.25);}
+
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(3, auto);
+    column-gap:clamp(24px, 5vw, 48px);
+    row-gap:22px;
+    justify-content:center;
+    max-width:640px;
+    margin:34px auto 0;
+    padding-top:26px;
+    border-top:1px solid var(--line);
+  }
+  .stat{text-align:center;}
+  .stat .n{
+    display:block;
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:700;
+    font-size:clamp(22px, 4vw, 28px);
+    color:var(--ink);
+    font-variant-numeric:tabular-nums;
+    line-height:1.1;
+  }
+  .stat .l{
+    display:block;
+    margin-top:4px;
+    font-size:11px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+  @media (max-width:520px){
+    .stats{grid-template-columns:repeat(2, auto);column-gap:28px;}
+  }
+
+  .divider{max-width:700px;margin:40px auto 0;border-top:1px solid var(--line);}
+
+  /* ---------- cards ---------- */
+  .work{padding:8px 24px 72px;}
+  .work-head{text-align:center;margin:0 auto 28px;max-width:700px;}
+  .work-head h2{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:600;
+    font-size:clamp(24px, 4vw, 30px);
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .work-head p{margin:0;color:var(--ink-faint);font-size:13.5px;}
+  .list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    max-width:700px;
+    margin:0 auto;
+  }
+  @media (max-width:640px){
+    .hero{padding:44px 18px 24px;}
+    .biz-card{padding:30px 22px 26px;}
+  }
+
+  details.card{
+    border:1px solid var(--line);
+    border-top:3px solid var(--line);
+    border-radius:12px;
+    background:#fff;
+    padding:0;
+    overflow:hidden;
+  }
+  details.card.teal{border-top-color:var(--teal);}
+  details.card.crimson{border-top-color:var(--crimson);}
+  details.card.plum{border-top-color:var(--plum);}
+  details.card.gold{border-top-color:var(--gold);}
+  details.card.burnt{border-top-color:var(--burnt);}
+
+  details.card summary{
+    list-style:none;
+    cursor:pointer;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--card-bg);
+    transition:background .15s ease;
+  }
+  details.card summary:hover{background:#f1efe8;}
+  details.card summary:focus-visible{outline:2px solid var(--ink);outline-offset:-2px;}
+  details.card summary::-webkit-details-marker{display:none;}
+
+  .pm{
+    position:relative;flex:none;width:16px;height:16px;border-radius:50%;
+    transition:transform .2s ease;
+  }
+  .pm::after{
+    content:"";position:absolute;top:50%;left:50%;width:0;height:0;
+    border-style:solid;border-width:8px 8.5px 8px 0;
+    border-color:transparent var(--card-bg) transparent transparent;
+    transform-origin:0% 50%;
+    transform:translateY(-50%) rotate(18deg);
+  }
+  details.card summary:hover .pm::after{border-right-color:#f1efe8;}
+  .pm.teal{background:var(--teal);}
+  .pm.crimson{background:var(--crimson);}
+  .pm.plum{background:var(--plum);}
+  .pm.gold{background:var(--gold);}
+  .pm.burnt{background:var(--burnt);}
+  details.card[open] .pm{transform:rotate(85deg);}
+
+  .card-head{flex:1;min-width:0;}
+  .card-head h3{margin:0 0 3px;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .card-head p{margin:0;color:var(--ink-soft);font-size:13.3px;line-height:1.4;}
+
+  .card-cta{
+    flex:none;
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:12px;font-weight:600;
+    padding:7px 13px;border-radius:20px;
+    border:1px solid var(--line);
+    background:#fff;color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .card-cta .chev{transition:transform .2s ease;flex:none;}
+  details[open] .card-cta .chev{transform:rotate(180deg);}
+  details:not([open]) .card-cta .hide{display:none;}
+  details[open] .card-cta .show{display:none;}
+  details[open] .card-cta{background:var(--ink);color:#fff;border-color:var(--ink);}
+  @media (max-width:560px){
+    .card-cta .label{display:none;}
+    .card-cta{padding:8px;}
+  }
+
+  .card-body{padding:4px 20px 22px 50px;background:#fff;}
+  .entry{padding:13px 0;border-top:1px solid var(--line);}
+  .entry:first-child{border-top:1px solid var(--line);}
+  .entry-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+  .entry-left{display:flex;align-items:center;gap:8px;}
+  .ic{width:17px;height:17px;flex:none;}
+  .card.teal .ic{color:var(--teal);}
+  .card.crimson .ic{color:var(--crimson);}
+  .card.plum .ic{color:var(--plum);}
+  .card.gold .ic{color:var(--gold);}
+  .card.burnt .ic{color:var(--burnt);}
+  .entry-title{font-weight:700;font-size:14.5px;}
+  .entry-tag{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:10.5px;color:var(--ink-faint);
+    background:#fff;border:1px solid var(--line);
+    padding:2px 7px;border-radius:3px;white-space:nowrap;
+  }
+  .entry p{margin:0 0 6px;color:var(--ink-soft);font-size:13.5px;line-height:1.55;max-width:58ch;}
+  .entry p strong{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums;}
+  .entry a{font-size:12.3px;display:inline-block;margin-top:1px;}
+  .entry a + a{margin-left:14px;}
+  .entry .note{font-size:11.5px;color:var(--ink-faint);font-style:italic;}
+
+  footer{max-width:780px;margin:0 auto;padding:24px 24px 56px;text-align:center;}
+  .foot-links{
+    display:flex;justify-content:center;gap:20px;flex-wrap:wrap;
+    font-size:13px;color:var(--ink-soft);
+    padding-top:20px;border-top:1px solid var(--line);
+  }
+  .foot-links a{color:var(--ink-soft);}
+  .foot-note{margin-top:14px;font-size:12px;color:var(--ink-faint);}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ic-launch" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16 13 7"/><path d="M13 7H7"/><path d="M13 7v6"/></g></symbol>
+    <symbol id="ic-sketch" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l1-3 9-9 2 2-9 9-3 1z"/><path d="M11 6l3 3"/></g></symbol>
+    <symbol id="ic-blueprint" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3l7 4-7 4-7-4 7-4z"/><path d="M3 11l7 4 7-4"/><path d="M3 15l7 4 7-4"/></g></symbol>
+    <symbol id="ic-loop" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a6 6 0 0 1 10.4-4"/><path d="M13.5 3.2v3.2h-3.2"/><path d="M16 10a6 6 0 0 1-10.4 4"/><path d="M6.5 16.8v-3.2h3.2"/></g></symbol>
+    <symbol id="ic-bars" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16V11"/><path d="M10 16V6"/><path d="M15.5 16v-8"/></g></symbol>
+    <symbol id="ic-pin" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18s6-5.6 6-10.2A6 6 0 0 0 4 7.8C4 12.4 10 18 10 18z"/><circle cx="10" cy="7.8" r="2"/></g></symbol>
+    <symbol id="ic-megaphone" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5v3l3 1v3"/><path d="M6 7.5l9-3v11l-9-3v-5z"/><path d="M12.5 13.5l1 3"/></g></symbol>
+    <symbol id="ic-flag" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v14"/><path d="M5 4h9l-2 3 2 3H5"/></g></symbol>
+    <symbol id="ic-network" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 13.6L9 6.8M13.6 13.6L11 6.8M6.7 15h6.6"/></g><g fill="currentColor" stroke="none"><circle cx="5.2" cy="15" r="1.7"/><circle cx="14.8" cy="15" r="1.7"/><circle cx="10" cy="5" r="1.7"/></g></symbol>
+    <symbol id="ic-terminal" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="13" height="11" rx="1.5"/><path d="M6.5 8.5l2.2 2-2.2 2"/><path d="M10.5 12.5h3"/></g></symbol>
+    <symbol id="ic-plug" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3v4M12.5 3v4"/><path d="M5 7h10v2.5a5 5 0 0 1-10 0V7z"/><path d="M10 14.5v2.5"/></g></symbol>
+    <symbol id="ic-play" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M8.3 7l4.4 3-4.4 3V7z" fill="currentColor" stroke="none"/></g></symbol>
+    <symbol id="ic-mic" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2.5" width="4" height="9" rx="2"/><path d="M5.2 9.5a4.8 4.8 0 0 0 9.6 0"/><path d="M10 14.3v2.7"/><path d="M7.3 17h5.4"/></g></symbol>
+  </defs>
+</svg>
+
+<div class="arcade" aria-hidden="true">
+  <div class="track"></div>
+  <div class="wipe"></div>
+  <div class="ghost g2"></div>
+  <div class="ghost g1"></div>
+  <div class="pac"></div>
+</div>
+
+<div class="hero">
+  <div class="biz-card">
+    <span class="nametag">hello, my name is</span>
+    <h1 class="logo">
+      <span style="color:var(--teal)">M</span><span style="color:var(--crimson)">i</span><span style="color:var(--plum)">c</span><span style="color:var(--gold)">h</span><span style="color:var(--burnt)">a</span><span style="color:var(--teal)">e</span><span style="color:var(--crimson)">l</span><span style="color:var(--plum)">a</span><span> </span><span style="color:var(--gold)">I</span><span style="color:var(--burnt)">s</span><span style="color:var(--teal)">a</span><span style="color:var(--crimson)">a</span><span style="color:var(--plum)">c</span><span style="color:var(--gold)">s</span>
+    </h1>
+    <p class="blurb">I've spent the last two years shipping zero-to-one product inside Microsoft's Azure data platform. There, I lead growth and an industry-wide connector migration affecting 80% of the Fortune 500 — and I built the AI tooling behind both, from a sales-pipeline-conversion engine to an agentic diagnostic scanner.</p>
+    <p class="blurb">The two years before that, I raised capital and ran marketing for early-stage, VC-backed startups.</p>
+    <p class="blurb">I'm an end-to-end product manager; involved from customer discovery through launch and retention; I like data-based decision-making, working hands-on with customers, building and enabling growth loops, and going deep and fast.</p>
+
+    <div class="buttons">
+      <a class="btn primary" href="mailto:michaela.isaacs@icloud.com" target="_blank" rel="noopener">Say hello</a>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="n">150+</span><span class="l">data connectors</span></div>
+    <div class="stat"><span class="n">6M+</span><span class="l">monthly users</span></div>
+    <div class="stat"><span class="n">80%</span><span class="l">of the Fortune&nbsp;500</span></div>
+    <div class="stat"><span class="n">$14M</span><span class="l">pipeline captured</span></div>
+    <div class="stat"><span class="n">99%</span><span class="l">triage cut</span></div>
+    <div class="stat"><span class="n">$1.56M</span><span class="l">raised</span></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="work" id="work">
+  <div class="work-head">
+    <h2>See the work</h2>
+    <p>Five areas, click any to expand.</p>
+  </div>
+  <div class="list">
+
+    <details class="card teal" open>
+      <summary>
+        <span class="pm teal"></span>
+        <span class="card-head">
+          <h3>Product Vision</h3>
+          <p>Zero-to-one. End-to-end.</p>
+        </span>
+        <span class="card-cta"><span class="label show">View examples</span><span class="label hide">Hide</span><svg class="chev" viewBox="0 0 20 20" width="11" height="11" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </summary>
+      <div class="card-body">
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-loop"/></svg><span class="entry-title">Open Mirroring — end-to-end ownership</span></span><span class="entry-tag">current · Microsoft</span></div>
+          <p>Open Mirroring is Fabric's open-format ingestion path: any system (a partner tool, a custom app, anything that can write change data) lands it directly in OneLake as an open mirrored database, no pipeline required — <strong>the external database stays the single source of truth</strong>, not a duplicated copy. I own it end to end: product strategy, roadmap, and growth.</p>
+          <a href="https://learn.microsoft.com/en-us/fabric/mirroring/open-mirroring" target="_blank" rel="noopener">what Open Mirroring is, learn.microsoft.com →</a>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-launch"/></svg><span class="entry-title">Mirroring for Google BigQuery</span></span><span class="entry-tag">0→1 · now GA</span></div>
+          <p>Led the cross-functional build of Fabric's first cross-cloud continuous-replication path for Google-native estates — <strong>12.5× the downstream compute leverage</strong> of any other strategic source we have. IKEA, Morgan Stanley, and more moved successfully into production through the POC white-glove program I built, sourced by my own agentic customer-ranking system, ahead of general availability.</p>
+          <a href="https://community.fabric.microsoft.com/blog/fbc_fabricupdatesblogs/mirroring-for-google-bigquery-in-microsoft-fabric-generally-available/5364851" target="_blank" rel="noopener">the GA announcement →</a>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-sketch"/></svg><span class="entry-title">Fabric Copilot — sketch to pipeline</span></span><span class="entry-tag">R&D</span></div>
+          <p>Spearheaded a multimodal Copilot capability that turns a hand-drawn sketch into a working data pipeline. I drove technical validation and executive buy-in across <strong>30+ senior stakeholders</strong>.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-blueprint"/></svg><span class="entry-title">Data Factory Item — the next substrate</span></span><span class="entry-tag">strategy</span></div>
+          <p>Defining Fabric's next data-integration substrate: I own the roadmap, vision, and go-to-market for a <strong>~$65M opportunity</strong> and the platform-level pivot behind it.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card crimson">
+      <summary>
+        <span class="pm crimson"></span>
+        <span class="card-head">
+          <h3>Growth &amp; GTM</h3>
+          <p>Fascinated by the growth funnel. And how agentic solutions can help pinpoint product gaps and convert customer funnels.</p>
+        </span>
+        <span class="card-cta"><span class="label show">View examples</span><span class="label hide">Hide</span><svg class="chev" viewBox="0 0 20 20" width="11" height="11" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </summary>
+      <div class="card-body">
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-bars"/></svg><span class="entry-title">AI-native sales-enablement dashboard</span></span><span class="entry-tag">CVP-sponsored</span></div>
+          <p>Built the ranking engine behind Fabric Data Integration's growth motion: an agentic algorithm scores 250+ Fortune 500 accounts — from customer-behavior and product-gap analysis through to account-team outreach — and pairs the output with a sales-skills framework that converts pipeline into deals. <strong>$14M captured</strong> on a single workload; $60M+ addressable pipeline projected as it scales.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-pin"/></svg><span class="entry-title">Enterprise field motion</span></span><span class="entry-tag">100+ engagements</span></div>
+          <p>Sourced and ran <strong>100+ white-glove Fortune 500 engagements</strong> — Walmart, Costco, IKEA, Morgan Stanley, Levi's, L'Oréal — at a 47% engagement rate, and landed a ~10PB Siemens POC. Authored the sales kit and the field-enablement rhythm still used globally, and designed the Ambassador Program and Ingestion Certification Program that followed. I'm also working to bridge the education and communication gap between product and sales.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-bars"/></svg><span class="entry-title">Alexa Central Data</span></span><span class="entry-tag">Amazon · internship</span></div>
+          <p>As a Program Manager Intern, I noticed 23 Alexa departments were all reporting data differently — so I built one system that didn't. That unified pipeline lifted reporting accuracy <strong>67%</strong> and pushed SLA compliance to 94%; the triaging layer underneath it cut product-development inefficiency by 47% by routing work to the right team first.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card plum">
+      <summary>
+        <span class="pm plum"></span>
+        <span class="card-head">
+          <h3>Side Projects</h3>
+          <p>What I build when nobody's assigning the roadmap.</p>
+        </span>
+        <span class="card-cta"><span class="label show">View examples</span><span class="label hide">Hide</span><svg class="chev" viewBox="0 0 20 20" width="11" height="11" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </summary>
+      <div class="card-body">
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-launch"/></svg><span class="entry-title">OneCourt — co-founder</span></span><span class="entry-tag">co-founder</span></div>
+          <p>Co-founded OneCourt, a VC-backed sports-tech startup, leading end-to-end product vision and growth strategy from the founding team. Raised ~$15K in funding through a series of pitch competitions. I personally ran 30+ stakeholder and product-design interviews with <strong>professional sports organizations — the Seattle Seahawks and Pittsburgh Steelers among them</strong> — translating their workflows into hardware and ML specs.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-megaphone"/></svg><span class="entry-title">Aquagga — marketing lead</span></span><span class="entry-tag">marketing lead</span></div>
+          <p>Ran marketing for Aquagga, a VC-backed deep-tech startup, before OneCourt — raising <strong>$1.56M total</strong>: $1M in private funding plus $560K crowdsourced.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-flag"/></svg><span class="entry-title">National Product Management Association</span></span><span class="entry-tag">founder &amp; president</span></div>
+          <p>Founded a product management association in college and scaled it to <strong>3 university chapters, 130+ members each</strong>.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-network"/></svg><span class="entry-title">YoungTech Seattle</span></span><span class="entry-tag">marketing &amp; ops lead</span></div>
+          <p>Marketing and ops lead for a regional startup/VC ecosystem, growing it to <strong>1,000+ members</strong> and landing sponsorships from Databricks, Google, and a handful of Seattle's top VC and startup law firms.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-sketch"/></svg><span class="entry-title">Growth Stack</span></span><span class="entry-tag">independent</span></div>
+          <p>My own publication: growthstack.blog, where I write about growth strategy — funnel mechanics, retention, and ecosystem dynamics for platform businesses.</p>
+          <a href="https://growthstack.blog/blog/why-uber-launched-with-black-cars" target="_blank" rel="noopener">why Uber launched with black cars →</a>
+          <a href="https://growthstack.blog/blog/product-growth-to-ecosystem-growth" target="_blank" rel="noopener">ecosystem growth →</a>
+        </div>
+      </div>
+    </details>
+
+    <details class="card gold">
+      <summary>
+        <span class="pm gold"></span>
+        <span class="card-head">
+          <h3>Technical Deep Dives</h3>
+          <p>Operating across a variety of technical spaces — diving deep, out of curiosity.</p>
+        </span>
+        <span class="card-cta"><span class="label show">View examples</span><span class="label hide">Hide</span><svg class="chev" viewBox="0 0 20 20" width="11" height="11" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </summary>
+      <div class="card-body">
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-plug"/></svg><span class="entry-title">Power Query Connectivity — platform ownership</span></span><span class="entry-tag">150+ connectors · 6M+ users</span></div>
+          <p>Own the connectivity product area across Power BI, Excel, and Fabric — Snowflake, Databricks, BigQuery, Redshift, Oracle, SAP, and more — serving <strong>6M+ monthly users, about 80% of the Fortune 500</strong>. Lead the product lifecycle across 5 engineering managers; shipped 680+ features and stories in FY26. Also built the agentic planning and scrum system behind it, cutting cross-functional operational overhead by 75%.</p>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-terminal"/></svg><span class="entry-title">pq-adbc-advisor</span></span><span class="entry-tag">merged · fabric-toolbox</span></div>
+          <p>Built a read-only Fabric notebook that scans workspaces and tenants for the ODBC→ADBC driver cutover, classifying every semantic model, dataflow, and pipeline as <em>will fail / needs review / ready</em> across 7 connectors. Diagnostic only — never rewrites M code. <strong>~99% per-artifact triage reduction</strong> across ~20K customers and 3.1B annual queries. Now merged into Microsoft's official fabric-toolbox.</p>
+          <a href="https://github.com/microsoft/fabric-toolbox/tree/main/accelerators/pq-adbc-advisor" target="_blank" rel="noopener">the repo, github.com →</a>
+          <a href="https://community.fabric.microsoft.com/blog/fbc_fabricupdatesblogs/moving-off-odbc-%E2%80%94-a-self-serve-scanner-for-your-adbc-migration/5365622" target="_blank" rel="noopener">the announcement →</a>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-terminal"/></svg><span class="entry-title">Stack</span></span><span class="entry-tag">daily drivers</span></div>
+          <p>Claude Code, Cursor, Clawpilot, and GitHub Copilot for agentic coding. SQL and data analysis. Figma. ADO/Jira. Web design.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="card burnt">
+      <summary>
+        <span class="pm burnt"></span>
+        <span class="card-head">
+          <h3>Technical Product Marketing</h3>
+          <p>If it shipped, I drove GTM and the product marketing — official blog, community blog, or a stage.</p>
+        </span>
+        <span class="card-cta"><span class="label show">View examples</span><span class="label hide">Hide</span><svg class="chev" viewBox="0 0 20 20" width="11" height="11" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </summary>
+      <div class="card-body">
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-sketch"/></svg><span class="entry-title">Microsoft Fabric Blog — official author</span></span><span class="entry-tag">published</span></div>
+          <p>Wrote the public advertisements and press for Mirroring for Google BigQuery: the public preview, and a staging enhancement that <strong>cut initial-sync time by over 90%</strong> (1.5TB / 6B rows in about 50 minutes, down from days).</p>
+          <a href="https://blog.fabric.microsoft.com/en-us/blog/announcing-public-preview-mirroring-for-google-bigquery-in-microsoft-fabric" target="_blank" rel="noopener">public preview announcement →</a>
+          <a href="https://blog.fabric.microsoft.com/en-US/blog/announcing-staging-for-mirroring-for-google-bigquery-in-microsoft-fabricmirroring-for-gbq-staging-blog/" target="_blank" rel="noopener">the 90% sync-speed post →</a>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-sketch"/></svg><span class="entry-title">Microsoft Fabric Community Blog</span></span><span class="entry-tag">published</span></div>
+          <p>Organized and wrote the longer technical deep-dives here: the BigQuery GA piece, and the migration guide that ships alongside the scanner tool.</p>
+          <a href="https://community.fabric.microsoft.com/blog/fbc_fabricupdatesblogs/mirroring-for-google-bigquery-in-microsoft-fabric-generally-available/5364851" target="_blank" rel="noopener">the GA deep-dive →</a>
+          <a href="https://community.fabric.microsoft.com/blog/fbc_fabricupdatesblogs/moving-off-odbc-%E2%80%94-a-self-serve-scanner-for-your-adbc-migration/5365622" target="_blank" rel="noopener">the migration guide →</a>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-play"/></svg><span class="entry-title">Fabric Just Changed Data Ingestion Forever</span></span><span class="entry-tag">KratosBI · 11K+ views</span></div>
+          <p>Broke down Fabric Mirroring's expansion to SharePoint and Microsoft 365 data for KratosBI's audience — near real-time into OneLake, no ETL pipeline required — and made the case for a "mirror-first" architecture as where data engineering is headed.</p>
+          <a href="https://www.youtube.com/watch?v=fi0808O5Bz4" target="_blank" rel="noopener">watch on YouTube →</a>
+        </div>
+        <div class="entry">
+          <div class="entry-top"><span class="entry-left"><svg class="ic"><use href="#ic-mic"/></svg><span class="entry-title">FabCon — speaker &amp; workshop lead</span></span><span class="entry-tag">Atlanta · Mar 2026</span></div>
+          <p>Designed and led a workshop at FabCon Atlanta, then took the stage to deliver it: "Mastering Data Factory in Microsoft Fabric: From Security to Operationalization" — practical guidance on metadata-driven, AI-powered pipelines.</p>
+          <a href="https://fabriccon.com/sitemap-categories/99-microsoft-workshop-speakers-fabcon-sqlcon-atlanta-2026/498-michaela-isaacs" target="_blank" rel="noopener">speaker page →</a>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</div>
+
+<footer>
+  <div class="foot-links">
+    <a href="https://www.linkedin.com/in/michaelaisaacs/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://growthstack.blog" target="_blank" rel="noopener">growthstack.blog</a>
+    <a href="https://github.com/Michaela-Isaacs" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:michaela.isaacs@icloud.com" target="_blank" rel="noopener">Email</a>
+  </div>
+  <p class="foot-note">Seattle, WA</p>
+</footer>
